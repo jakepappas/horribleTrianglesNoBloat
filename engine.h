@@ -20,19 +20,17 @@ using glm::vec2, glm::vec3, glm::vec4, glm::mat4;
 class Engine {
 private:
 
-    vec4 p1 = vec4(0.5, 0.5, 5, 1);
-    vec4 p2 = vec4(-0.5, -0.5, 5, 1);
-    vec4 p3 = vec4(-0.5, 0.5, 5, 1);
-    vec4 p4 = vec4(0.5, -0.5, 5, 1);
+    vec4 p1 = vec4(0.5, 0.5, 1, 1);
+    vec4 p2 = vec4(-0.5, -0.5, 1, 1);
+    vec4 p3 = vec4(-0.5, 0.5, 1, 1);
+    vec4 p4 = vec4(0.5, -0.5, 1, 1);
 
-    vec4 p5 = vec4(0.5, 0.5, 10, 1);
-    vec4 p6 = vec4(-0.5, -0.5, 10, 1);
-    vec4 p7 = vec4(-0.5, 0.5, 10, 1);
-    vec4 p8 = vec4(0.5, -0.5, 10, 1);
+    vec4 p5 = vec4(0.5, 0.5, 2, 1);
+    vec4 p6 = vec4(-0.5, -0.5, 2, 1);
+    vec4 p7 = vec4(-0.5, 0.5, 2, 1);
+    vec4 p8 = vec4(0.5, -0.5, 2, 1);
 
-
-
-
+    vec3 center = vec3(0,0,0);
 
 
     uint32_t *pixels;
@@ -41,7 +39,7 @@ private:
 
     const float Far = 100.0f;
     const float Near = 1.0f;
-    const float fov = 110.0f;
+    const float fov = 90.0f;
     const float aspect = 1.0f;
     const float f = 1.0f / tan((fov * M_PI / 180.0f) / 2.0f);
 
