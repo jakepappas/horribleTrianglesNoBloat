@@ -20,6 +20,21 @@ using glm::vec2, glm::vec3, glm::vec4, glm::mat4;
 class Engine {
 private:
 
+    vec4 p1 = vec4(0.5, 0.5, 5, 1);
+    vec4 p2 = vec4(-0.5, -0.5, 5, 1);
+    vec4 p3 = vec4(-0.5, 0.5, 5, 1);
+    vec4 p4 = vec4(0.5, -0.5, 5, 1);
+
+    vec4 p5 = vec4(0.5, 0.5, 10, 1);
+    vec4 p6 = vec4(-0.5, -0.5, 10, 1);
+    vec4 p7 = vec4(-0.5, 0.5, 10, 1);
+    vec4 p8 = vec4(0.5, -0.5, 10, 1);
+
+
+
+
+
+
     uint32_t *pixels;
 
     const unsigned int width = 800, height = 800;
@@ -38,13 +53,7 @@ private:
     );
 
     float degreeRotation = 0;
-    float degree = degreeRotation * M_PI / 180.0f;
-    mat4 rotation = mat4(
-            cos(degree), 0, sin(degree), 0,
-            0, 1, 0, 0,
-            -sin(degree), 0, cos(degree), 0,
-            0, 0, 0, 1
-    );
+
 
     std::vector<std::unique_ptr<Triangle>> Triangles;
 

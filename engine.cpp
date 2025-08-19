@@ -8,17 +8,25 @@ Engine::Engine(uint32_t *pixels) {
 Engine::~Engine() = default;
 
 void Engine::InitShapes() {
-    vec4 p1 = vec4(0.5, 0.5, 5, 1);
-    vec4 p2 = vec4(-0.5, -0.5, 5, 1);
-    vec4 p3 = vec4(-0.5, 0.5, 5, 1);
-    vec4 p4 = vec4(0.5, -0.5, 5, 1);
-
-    vec4 p5 = vec4(0.5, 0.5, 10, 1);
-    vec4 p6 = vec4(-0.5, -0.5, 10, 1);
-    vec4 p7 = vec4(-0.5, 0.5, 10, 1);
-    vec4 p8 = vec4(0.5, -0.5, 10, 1);
 
 
+
+}
+
+void Engine::ProcessInput() {
+
+}
+
+void Engine::Update() {
+    Triangles.clear();
+
+    float degree = degreeRotation++ * M_PI / 180.0f;
+    mat4 rotation = mat4(
+            cos(degree), 0, sin(degree), 0,
+            0, 1, 0, 0,
+            -sin(degree), 0, cos(degree), 0,
+            0, 0, 0, 1
+    );
 
     Triangles.push_back(
             std::make_unique<Triangle>(p1, p2, p3,
@@ -37,17 +45,10 @@ void Engine::InitShapes() {
 
 }
 
-void Engine::ProcessInput() {
-
-}
-
-void Engine::Update() {
-
-}
-
 void Engine::Render() {
+    std::fill_n(pixels, width * height, 0x000000);
+
     for (auto &triangle: Triangles) {
-//        triangle->SetRotation(degreeRotation);
         triangle->Draw();
     }
 }

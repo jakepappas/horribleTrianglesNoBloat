@@ -53,20 +53,27 @@ public:
 
     }
 
-    void SetRotation(float degreeRotation){
-        std::cout<<degreeRotation<<std::endl;
-        std::cout<<p2d1.x << " " << p2d1.y <<std::endl;
-        float degree = degreeRotation * M_PI / 180.0f;
-        rotation = mat4(
-                cos(degree), 0, sin(degree), 0,
-                0, 1, 0, 0,
-                -sin(degree), 0, cos(degree), 0,
-                0, 0, 0, 1
-        );
+//    void SetRotation(float degreeRotation){
+//        std::cout<<degreeRotation<<std::endl;
+//        std::cout<<p2d1.x << " " << p2d1.y <<std::endl;
+//        float degree = degreeRotation * M_PI / 180.0f;
+//        this->rotation = mat4(
+//                cos(degree), 0, sin(degree), 0,
+//                0, 1, 0, 0,
+//                -sin(degree), 0, cos(degree), 0,
+//                0, 0, 0, 1
+//        );
+//        this->p2d1 = ApplyTransformations(p1);
+//        this->p2d2 = ApplyTransformations(p2);
+//        this->p2d3 = ApplyTransformations(p3);
+//
+//    }
+
+    void SetRotation(const mat4& rot) {
+        this->rotation = rot;
         this->p2d1 = ApplyTransformations(p1);
         this->p2d2 = ApplyTransformations(p2);
         this->p2d3 = ApplyTransformations(p3);
-
     }
 
 
@@ -103,14 +110,14 @@ public:
 
         for (int x = x0; x <= x1; x++) {
             if (steep) {
-                if (y >= 0 && y <= screenHeight &&
-                    x >= 0 && x <= screenWidth) {
-                    ColorPixel(y,x);
+                if (y >= 0 && y < screenWidth &&
+                    x >= 0 && x < screenHeight) {
+                    ColorPixel(y, x);
                 }
             } else {
-                if (x >= 0 && x <= screenHeight &&
-                    y >= 0 && y <= screenWidth) {
-                    ColorPixel(x,y);
+                if (x >= 0 && x < screenWidth &&
+                    y >= 0 && y < screenHeight) {
+                    ColorPixel(x, y);
                 }
             }
 
