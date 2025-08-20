@@ -16,7 +16,6 @@
 
 using glm::vec2, glm::vec3, glm::vec4, glm::mat4;
 
-
 class Engine {
 private:
 
@@ -36,6 +35,7 @@ private:
     mat4 modelMatrix = mat4(1);
     uint32_t *pixels;
 
+
     const unsigned int width = 800, height = 800;
 
     const float Far = 100.0f;
@@ -51,24 +51,31 @@ private:
             0, 0, -1, 0
     );
 
-    float degreeRotation = 0;
-
+    float degreeRotationX = 0;
+    float degreeRotationY = 0;
+    mat4 rotation = RotationY(0);
 
     std::vector<std::unique_ptr<Triangle>> Triangles;
 
 public:
-    Engine(uint32_t *pixels);
+    explicit Engine(uint32_t *pixels);
 
     ~Engine();
 
     /// @brief Initializes the shapes to be rendered.
     void InitShapes();
 
-    void ProcessInput();
+    void ProcessInput(bool* keys);
 
     void Update();
 
     void Render();
+
+
+    mat4 Translation(float x, float y, float z);
+    mat4 RotationY(float angle);
+    mat4 RotationX(float angle);
+
 
 
 };

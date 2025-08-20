@@ -2,6 +2,12 @@
 #include "engine.h"
 #include <cstdint>
 
+// Keys
+constexpr int KEY_COUNT = 4;
+bool keyStates[KEY_COUNT] = {};
+
+
+
 // Define your screen size
 constexpr int WIDTH = 800;
 constexpr int HEIGHT = 800;
@@ -17,7 +23,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
     WNDCLASS wc = {};
     wc.lpfnWndProc = WindowProc;
     wc.hInstance = hInstance;
-    wc.lpszClassName = reinterpret_cast<LPCSTR>(L"MyWindowClass");
+    wc.lpszClassName = reinterpret_cast<LPCSTR>("MyWindowClass");
 
     RegisterClass(&wc);
 
@@ -25,7 +31,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
     HWND hwnd = CreateWindowEx(
             0,
             wc.lpszClassName,
-            reinterpret_cast<LPCSTR>(L"Pixel Renderer"),
+            reinterpret_cast<LPCSTR>("Horrible Triangles No Bloat"),
             WS_OVERLAPPEDWINDOW,
             CW_USEDEFAULT, CW_USEDEFAULT, WIDTH, HEIGHT,
             nullptr, nullptr, hInstance, nullptr
@@ -54,7 +60,13 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE, LPSTR, int nCmdShow) {
             TranslateMessage(&msg);
             DispatchMessage(&msg);
         }
-        engine->Update();
+
+        keyStates[0] = (GetKeyState('W') & 0x8000) != 0;
+        keyStates[1] = (GetKeyState('A') & 0x8000) != 0;
+        keyStates[2] = (GetKeyState('S') & 0x8000) != 0;
+        keyStates[3] = (GetKeyState('D') & 0x8000) != 0;
+
+        engine->ProcessInput(keyStates);
         engine->Render();
 
 // Get device context and draw the buffer
