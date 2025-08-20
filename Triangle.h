@@ -14,7 +14,7 @@ public:
     vec4 p2{};
     vec4 p3{};
     mat4 projection{};
-    mat4 rotation{};
+    mat4 modelMatrix{};
     int screenWidth;
     int screenHeight;
 
@@ -24,58 +24,42 @@ public:
 
     uint32_t *pixels;
 
-    Triangle(vec4 p1, vec4 p2, vec4 p3, mat4 &projection, mat4 &rotation, int screenWidth, int screenHeight,
+    Triangle(vec4 p1, vec4 p2, vec4 p3, mat4 &projection, mat4 &modelMatrix, int screenWidth, int screenHeight,
              uint32_t *pixels) {
+        this->p1 = p1;
+        this->p2 = p2;
+        this->p3 = p3;
+
         this->projection = projection;
-        this->rotation = rotation;
+        this->modelMatrix = modelMatrix;
         this->screenWidth = screenWidth;
         this->screenHeight = screenHeight;
 
-        this->p2d1 = ApplyTransformations(p1);
-        this->p2d2 = ApplyTransformations(p2);
-        this->p2d3 = ApplyTransformations(p3);
+        ApplyAllTransformations(modelMatrix);
 
         this->pixels = pixels;
     }
 
     ~Triangle() = default;
 
-    vec2 ApplyTransformations(vec4 p) {
-        vec4 projected = projection * rotation * p;
-        if(projected.w!=0){
+    void ApplyAllTransformations(mat4 newModelMatrix) {
+        this->p2d1 = ApplyTransformations(p1, newModelMatrix);
+        this->p2d2 = ApplyTransformations(p2, newModelMatrix);
+        this->p2d3 = ApplyTransformations(p3, newModelMatrix);
+    }
+
+    vec2 ApplyTransformations(vec4 p, mat4 newModelMatrix) {
+        vec4 projected = projection * newModelMatrix * p;
+        if (projected.w != 0) {
             vec3 ndc = vec3(projected) / projected.w;
             int x = static_cast<int>(round((ndc.x + 1.0f) * 0.5f * screenWidth));
             int y = static_cast<int>(round((1.0f - (ndc.y + 1.0f) * 0.5f) * screenHeight));
             return {x, y};
-        }else{
-            return{0,0};
+        } else {
+            return {0, 0};
         }
 
     }
-
-//    void SetRotation(float degreeRotation){
-//        std::cout<<degreeRotation<<std::endl;
-//        std::cout<<p2d1.x << " " << p2d1.y <<std::endl;
-//        float degree = degreeRotation * M_PI / 180.0f;
-//        this->rotation = mat4(
-//                cos(degree), 0, sin(degree), 0,
-//                0, 1, 0, 0,
-//                -sin(degree), 0, cos(degree), 0,
-//                0, 0, 0, 1
-//        );
-//        this->p2d1 = ApplyTransformations(p1);
-//        this->p2d2 = ApplyTransformations(p2);
-//        this->p2d3 = ApplyTransformations(p3);
-//
-//    }
-
-    void SetRotation(const mat4& rot) {
-        this->rotation = rot;
-        this->p2d1 = ApplyTransformations(p1);
-        this->p2d2 = ApplyTransformations(p2);
-        this->p2d3 = ApplyTransformations(p3);
-    }
-
 
     void ColorPixel(int x, int y) {
         uint8_t r = 255;
@@ -130,9 +114,9 @@ public:
     }
 
     void Draw() {
-        DrawLine(p2d1,p2d2);
-        DrawLine(p2d1,p2d3);
-        DrawLine(p2d2,p2d3);
+        DrawLine(p2d1, p2d2);
+        DrawLine(p2d1, p2d3);
+        DrawLine(p2d2, p2d3);
     }
 
 

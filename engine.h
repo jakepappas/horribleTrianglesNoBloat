@@ -30,9 +30,10 @@ private:
     vec4 p7 = vec4(-0.5, 0.5, 2, 1);
     vec4 p8 = vec4(0.5, -0.5, 2, 1);
 
-    vec3 center = vec3(0,0,0);
+    vec3 center = vec3(0, 0, 0);
 
 
+    mat4 modelMatrix = mat4(1);
     uint32_t *pixels;
 
     const unsigned int width = 800, height = 800;
